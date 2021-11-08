@@ -34,7 +34,7 @@ window.onkeydown = function (e) {
         case 'ArrowUp':
         megaMan.y -= 50;
             break;
-    } 
+    }
 }
 
 const lasers = []
@@ -42,24 +42,19 @@ const lasers = []
 //Spawing enemies in random place aka adding enemy objects to enemy array
 setInterval(() => {
     console.log("add a new laser", lasers)
-    lasers.push({
-        x: 0,
-        y: Math.random() * canvas.width,
-        w: 20,
-        h: (Math.random() * canvas.width)/2,
-    })
+    lasers.push(new ObstaclesTop())
 }, 3000)
 
 
 
-// class ObstaclesTop { //THIS IS FOR TEAM TO MAYBE TRY LATER
-//     constructor(x,y,w,h){
-//     this.x = Math.random()*canvas.width,
-//     this.y = -55,
-//     this.w = Math.random()*(canvas.width/2)+100,
-//     this.h = 50
-//     }
-// }
+class ObstaclesTop { //THIS IS FOR TEAM TO MAYBE TRY LATER
+    constructor(x,y,w,h){
+    this.x = Math.random()*canvas.width,
+    this.y = -55,
+    this.w = Math.random()*(canvas.width/2)+100,
+    this.h = 50
+    }
+}
 
 // class ObstaclesBottom {
 //     constructor(x,y,w,h){
