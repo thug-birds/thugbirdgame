@@ -1,10 +1,13 @@
-body{
-    margin:0;
-    padding:0;
+body {
+  margin: 10px;
+  padding: 0;
 }
 
-canvas{
-    border: 1px solid black;
-    width: 700px;
-    height:600px;
+canvas {
+  border: 1px solid black;
+  width: 700px;
+  height: 600px;
+  background-image: url("./images/space-background.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
