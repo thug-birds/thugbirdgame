@@ -24,36 +24,16 @@ laserImg.onload=()=>{
 
 
 class Laser {
-    constructor(top,height){
+    constructor(top,height, y){
         this.x = canvas.width,
-        this.y = 0,
+        this.y = y,
         this.w = 100,
         this.h = height
         this.image= laserImg
         this.top= top
-        
         }
-    
 }
 
-// let laserBeam= []
-// laserBeam[0]={
-//     x:canvas.width,
-//     y: 0
-// }
-
-// let laserBeam ={
-//     x: canvas.width/2,
-//     y: canvas.height-laserBeam.h,
-//     w: 100,
-//     h: 300,
-// }
-// let laser2Beam ={
-//     x: 300,
-//     y: 0,
-//     w: 100,
-//     h: 300,
-// }
 
 window.onkeydown = function (e) {
     switch (e.key) {
@@ -71,16 +51,17 @@ const lasers = []
 
 //Spawing enemies in random place aka adding enemy objects to enemy array
 setInterval(() => {
-    let gap= 100
-    let height=600
-    let topLaserHeight=Math.random()*300
+    let gap = 300
+    let height = canvas.height
+    let topLaserHeight=Math.random()*height-300
     let bottomLaserHeight= height-topLaserHeight-gap
     console.log("add a new laser", lasers)
-    lasers.push(new Laser(true,topLaserHeight))
-    lasers.push(new Laser(false,bottomLaserHeight))
-}, 5000)
+    lasers.push(new Laser(true,topLaserHeight, 0))
+    lasers.push(new Laser(false,bottomLaserHeight, canvas.height-bottomLaserHeight))
+}, 3000)
 
-let score=0
+let score = 0
+
 setInterval(() => {
     score += 10
 }, 1000)
@@ -97,8 +78,8 @@ document.querySelector('p span').innerText = score
 
 
 for (let laser of lasers){
-    ctx.drawImage(laser.image,laser.x--,(laser.top?laser.y:canvas.height-laser.h),laser.w,laser.h)
-    detectCollision(megaMan, laser)
+    ctx.drawImage(laser.image,laser.x-=3,laser.y,laser.w,laser.h)
+       detectCollision(megaMan, laser) 
 }
 
 ctx.drawImage(megaImg, megaMan.x, megaMan.y, megaMan.w, megaMan.h)
