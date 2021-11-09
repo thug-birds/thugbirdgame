@@ -24,13 +24,14 @@ laserImg.onload=()=>{
 
 
 class Laser {
-    constructor(top){
+    constructor(top,){
         this.x = canvas.width,
         this.y = 0,
         this.w = 100,
         this.h = Math.random()*300
         this.image= laserImg
         this.top= top
+        
         }
     
 }
