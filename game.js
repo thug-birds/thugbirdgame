@@ -19,15 +19,40 @@ let megaMan={
 let laserImg= new Image()
 laserImg.src="./images/laser.png"
 laserImg.onload=()=>{
-    ctx.drawImage(laserImg,0,canvas.height/2,100,100)
+    ctx.drawImage(laserImg,canvas.width/2,canvas.height-300,100,300)
 }
 
-let laserBeam ={
-    x: 0,
-    y: canvas.height/2,
-    w: 100,
-    h: 500,
+
+class Laser {
+    constructor(top){
+        this.x = canvas.width,
+        this.y = 0,
+        this.w = 100,
+        this.h = Math.random()*300
+        this.image= laserImg
+        this.top= top
+        }
+    
 }
+
+// let laserBeam= []
+// laserBeam[0]={
+//     x:canvas.width,
+//     y: 0
+// }
+
+// let laserBeam ={
+//     x: canvas.width/2,
+//     y: canvas.height-laserBeam.h,
+//     w: 100,
+//     h: 300,
+// }
+// let laser2Beam ={
+//     x: 300,
+//     y: 0,
+//     w: 100,
+//     h: 300,
+// }
 
 window.onkeydown = function (e) {
     switch (e.key) {
@@ -42,28 +67,13 @@ const lasers = []
 //Spawing enemies in random place aka adding enemy objects to enemy array
 setInterval(() => {
     console.log("add a new laser", lasers)
-    lasers.push(new ObstaclesTop())
-}, 3000)
+    lasers.push(new Laser(true))
+    lasers.push(new Laser(false))
+}, 5000)
 
 
 
-class ObstaclesTop { //THIS IS FOR TEAM TO MAYBE TRY LATER
-    constructor(x,y,w,h){
-    this.x = Math.random()*canvas.width,
-    this.y = -55,
-    this.w = Math.random()*(canvas.width/2)+100,
-    this.h = 50
-    }
-}
 
-// class ObstaclesBottom {
-//     constructor(x,y,w,h){
-//     this.x = Math.random()*canvas.width,
-//     this.y = -55,
-//     this.w = Math.random()*(canvas.width/2)+100,
-//     this.h = 50
-//     }
-// }
 
 let int
 function animate(){
@@ -71,14 +81,18 @@ int=window.requestAnimationFrame(animate)
 
 ctx.clearRect(0,0,canvas.width,canvas.height)
 
-// ctx.fillStyle = 'purple'
-// for (let laser of roadblocks){
-//     ctx.fillRect(roadblock.x, roadblock.y +=(2*roadblock.speedModifier), roadblock.w, roadblock.h)
-//     detectCollision(car, roadblock)
-// }
+
+
+
+for (let laser of lasers){
+    ctx.drawImage(laser.image,laser.x--,(laser.top?laser.y:canvas.height-laser.h),laser.w,laser.h)
+    //ctx.drawImage(laser.image,laser.x--,laser.y,laser.w,laser.h)
+    // detectCollision(car, roadblock)
+}
 
 ctx.drawImage(megaImg, megaMan.x, megaMan.y, megaMan.w, megaMan.h)
-ctx.drawImage(laserImg, laserBeam.x, laserBeam.y, laserBeam.w, laserBeam.h)
+//ctx.drawImage(laserImg, laserBeam.x, laserBeam.y, laserBeam.w, laserBeam.h)
+
 // document.querySelector('body p').innerHTML = pointcounter
 }
 
