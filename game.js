@@ -5,6 +5,8 @@ const ctx = canvas.getContext('2d')
 
 let gameOn = false;
 let restart = true;
+let lasers = []
+let score = 0
 
 window.onload = function() {
     document.getElementById('start-button').onclick = function() {
@@ -17,22 +19,20 @@ window.onload = function() {
 
 function playGame() {
     restart = false;
-    
-    
     gameOn = true;
-    
-    
     document.getElementById('start-button').blur();
-    
-    
+    score=0
+    lasers=[]
     animate();
+    
+
 }
 
 function gameOver(){
     restart= true
     gameOn=false
     document.getElementById('start-button').innerText= "Restart"
-    document.getElementById('start-button').onclick = window.location.reload()
+    document.getElementById('start-button').onclick = playGame
     // function() {
     //     if (!gameOn && restart) {
     //       playGame();
@@ -85,7 +85,7 @@ window.onkeydown = function (e) {
     }
 }
 
-const lasers = []
+
 
 //Spawing enemies in random place aka adding enemy objects to enemy array
 setInterval(() => {
@@ -98,10 +98,11 @@ setInterval(() => {
     lasers.push(new Laser(false,bottomLaserHeight, canvas.height-bottomLaserHeight))
 }, 3000)
 
-let score = 0
 
 setInterval(() => {
     score += 1
+
+
 }, 500)
 
 
