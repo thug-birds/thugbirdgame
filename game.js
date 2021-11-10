@@ -59,7 +59,7 @@ let megaMan={
 let laserImg= new Image()
 laserImg.src="./images/laser.png"
 laserImg.onload=()=>{
-    ctx.drawImage(laserImg,canvas.width/2,canvas.height-300,100,300)
+    ctx.drawImage(laserImg,canvas.width,canvas.height-300,100,300)
 }
 
 
@@ -97,7 +97,7 @@ window.onkeydown = function (e) {
 
 
 //Spawing enemies in random place aka adding enemy objects to enemy array
-setInterval(() => {
+let spawnLasers=setInterval(() => {
     let gap = 300
     let height = canvas.height
     let topLaserHeight=Math.random()*height-300
@@ -105,8 +105,12 @@ setInterval(() => {
     console.log("add a new laser", lasers)
     lasers.push(new Laser(true,topLaserHeight, 0))
     lasers.push(new Laser(false,bottomLaserHeight, canvas.height-bottomLaserHeight))
+
 }, 4000)
 
+function stopLasers(){
+    clearInterval(spawnLasers)
+}
 
 setInterval(() => {
     score += 1
@@ -127,7 +131,8 @@ document.querySelector('p span').innerText = score
 
 for (let laser of lasers){
     ctx.drawImage(laser.image,laser.x-=3,laser.y,laser.w,laser.h)
-       detectCollision(megaMan, laser, canvas.height) 
+       detectCollision(megaMan, laser, canvas.height)
+         
 }
 
 ctx.drawImage(megaImg, megaMan.x, megaMan.y, megaMan.w, megaMan.h)
@@ -146,11 +151,18 @@ function detectCollision(hero, columns, border) {
         console.log('collision')
         window.cancelAnimationFrame(int)
         //window.location.reload()
-        
+        ctx.font="bold 96px Helvetica, Arial, sans-serif"
+        ctx.fillText("Game Over",canvas.width/2,canvas.height/2)
+        ctx.textAlign = "center",
+        ctx.fillStyle="red"
         gameOver()
         
     }else if(hero.y+hero.h>=border){
         console.log('collision bottom')
+        ctx.font="bold 96px Helvetica, Arial, sans-serif"
+        ctx.fillText("Game Over",canvas.width/2,canvas.height/2)
+        ctx.textAlign = "center",
+        ctx.fillStyle="red"
         window.cancelAnimationFrame(int)
         gameOver()
 
