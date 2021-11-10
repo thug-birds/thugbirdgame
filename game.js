@@ -7,6 +7,7 @@ let gameOn = false;
 let restart = true;
 let lasers = []
 let score = 0
+let gravity= 1.5
 
 window.onload = function() {
     document.getElementById('start-button').onclick = function() {
@@ -23,6 +24,7 @@ function playGame() {
     document.getElementById('start-button').blur();
     score=0
     lasers=[]
+    megaMan.y=canvas.height/2
     animate();
     
 
@@ -80,7 +82,14 @@ window.onkeydown = function (e) {
             break;
 
         case 'ArrowDown':
-        megaMan.y+= 50;
+        if(megaMan.y+megaMan.h+50>=canvas.height){
+            console.log("mega man is out",canvas.height-megaMan.y-megaMan.h)
+            megaMan.y=canvas.height-megaMan.h
+            detectCollision(megaMan, {},canvas.height)
+        }else{
+            megaMan.y+= 50;
+        }
+            
         break;
     }
 }
@@ -96,7 +105,7 @@ setInterval(() => {
     console.log("add a new laser", lasers)
     lasers.push(new Laser(true,topLaserHeight, 0))
     lasers.push(new Laser(false,bottomLaserHeight, canvas.height-bottomLaserHeight))
-}, 3000)
+}, 4000)
 
 
 setInterval(() => {
@@ -118,18 +127,18 @@ document.querySelector('p span').innerText = score
 
 for (let laser of lasers){
     ctx.drawImage(laser.image,laser.x-=3,laser.y,laser.w,laser.h)
-       detectCollision(megaMan, laser) 
+       detectCollision(megaMan, laser, canvas.height) 
 }
 
 ctx.drawImage(megaImg, megaMan.x, megaMan.y, megaMan.w, megaMan.h)
-
+megaMan.y+=gravity
 
 // document.querySelector('body p').innerHTML = pointcounter
 }
 
 
 
-function detectCollision(hero, columns) {
+function detectCollision(hero, columns, border) {
     if (hero.x < columns.x + columns.w &&
         hero.x + hero.w > columns.x &&
         hero.y < columns.y + columns.h &&
@@ -137,7 +146,16 @@ function detectCollision(hero, columns) {
         console.log('collision')
         window.cancelAnimationFrame(int)
         //window.location.reload()
+        
         gameOver()
+        
+    }else if(hero.y+hero.h>=border){
+        console.log('collision bottom')
+        window.cancelAnimationFrame(int)
+        gameOver()
+
     }
-    // collision detected!
+
+    
+    
   }
