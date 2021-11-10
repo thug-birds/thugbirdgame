@@ -3,6 +3,44 @@ canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 const ctx = canvas.getContext('2d')
 
+let gameOn = false;
+let restart = true;
+
+window.onload = function() {
+    document.getElementById('start-button').onclick = function() {
+      if (!gameOn && restart) {
+        playGame();
+      }
+      
+    };
+};
+
+function playGame() {
+    restart = false;
+    
+    
+    gameOn = true;
+    
+    
+    document.getElementById('start-button').blur();
+    
+    
+    animate();
+}
+
+function gameOver(){
+    restart= true
+    gameOn=false
+    document.getElementById('start-button').innerText= "Restart"
+    document.getElementById('start-button').onclick = window.location.reload()
+    // function() {
+    //     if (!gameOn && restart) {
+    //       playGame();
+    //     }
+    //  };
+
+}
+
 let megaImg= new Image()
 megaImg.src="./images/pngegg.png"
 megaImg.onload=()=>{
@@ -63,8 +101,8 @@ setInterval(() => {
 let score = 0
 
 setInterval(() => {
-    score += 10
-}, 1000)
+    score += 1
+}, 500)
 
 
 
@@ -88,7 +126,7 @@ ctx.drawImage(megaImg, megaMan.x, megaMan.y, megaMan.w, megaMan.h)
 // document.querySelector('body p').innerHTML = pointcounter
 }
 
-animate()
+
 
 function detectCollision(hero, columns) {
     if (hero.x < columns.x + columns.w &&
@@ -97,7 +135,8 @@ function detectCollision(hero, columns) {
         hero.h + hero.y > columns.y) {
         console.log('collision')
         window.cancelAnimationFrame(int)
-        // window.location.reload()
+        //window.location.reload()
+        gameOver()
     }
     // collision detected!
   }
