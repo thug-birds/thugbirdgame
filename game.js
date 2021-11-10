@@ -25,6 +25,7 @@ function playGame() {
     score=0
     lasers=[]
     megaMan.y=canvas.height/2
+    toggleLasers(true)
     animate();
     
 
@@ -97,20 +98,37 @@ window.onkeydown = function (e) {
 
 
 //Spawing enemies in random place aka adding enemy objects to enemy array
-let spawnLasers=setInterval(() => {
-    let gap = 300
-    let height = canvas.height
-    let topLaserHeight=Math.random()*height-300
-    let bottomLaserHeight= height-topLaserHeight-gap
-    console.log("add a new laser", lasers)
-    lasers.push(new Laser(true,topLaserHeight, 0))
-    lasers.push(new Laser(false,bottomLaserHeight, canvas.height-bottomLaserHeight))
+// let spawnLasers=setInterval(() => {
+//     let gap = 300
+//     let height = canvas.height
+//     let topLaserHeight=Math.random()*height-300
+//     let bottomLaserHeight= height-topLaserHeight-gap
+//     console.log("add a new laser", lasers)
+//     lasers.push(new Laser(true,topLaserHeight, 0))
+//     lasers.push(new Laser(false,bottomLaserHeight, canvas.height-bottomLaserHeight))
 
-}, 4000)
+// }, 4000)
 
-function stopLasers(){
-    clearInterval(spawnLasers)
+let spawnLasers;
+function toggleLasers(bool){
+    if(bool){
+            spawnLasers=setInterval(() => {
+            let gap = 300
+            let height = canvas.height
+            let topLaserHeight=Math.random()*height-300
+            let bottomLaserHeight= height-topLaserHeight-gap
+            console.log("add a new laser", lasers)
+            lasers.push(new Laser(true,topLaserHeight, 0))
+            lasers.push(new Laser(false,bottomLaserHeight, canvas.height-bottomLaserHeight))
+        
+        }, 4000)
+    }else{
+        clearInterval(spawnLasers)
+
+    }
 }
+
+
 
 setInterval(() => {
     score += 1
@@ -149,21 +167,24 @@ function detectCollision(hero, columns, border) {
         hero.y < columns.y + columns.h &&
         hero.h + hero.y > columns.y) {
         console.log('collision')
-        window.cancelAnimationFrame(int)
         //window.location.reload()
-        ctx.font="bold 96px Helvetica, Arial, sans-serif"
-        ctx.fillText("Game Over",canvas.width/2,canvas.height/2)
-        ctx.textAlign = "center",
+        window.cancelAnimationFrame(int)
         ctx.fillStyle="red"
+        ctx.font="bold 96px Helvetica, Arial, sans-serif"
+        ctx.textAlign = "center",
+        ctx.fillText("Game Over",canvas.width/2,canvas.height/2)
+        ctx.fillText("Game Over",canvas.width/2,canvas.height/2)
+        toggleLasers()
         gameOver()
         
     }else if(hero.y+hero.h>=border){
         console.log('collision bottom')
+        window.cancelAnimationFrame(int)
+        ctx.fillStyle="red"
+        ctx.textAlign = "center",
         ctx.font="bold 96px Helvetica, Arial, sans-serif"
         ctx.fillText("Game Over",canvas.width/2,canvas.height/2)
-        ctx.textAlign = "center",
-        ctx.fillStyle="red"
-        window.cancelAnimationFrame(int)
+        toggleLasers() 
         gameOver()
 
     }
