@@ -18,14 +18,17 @@ window.onload = function() {
 };
 
 function playGame() {
-    restart = false;
-    gameOn = true;
-    document.getElementById('start-button').blur();
-    score=0
-    lasers=[]
-    megaMan.y=canvas.height/2
-    toggleLasers(true)
-    animate();
+    if (!gameOn){
+        restart = false;
+        gameOn = true;
+        document.getElementById('start-button').blur();
+        score=0
+        lasers=[]
+        megaMan.y=canvas.height/2
+        toggleLasers(true)
+        animate();
+    }
+    
 }
 
 function gameOver(){
@@ -33,13 +36,14 @@ function gameOver(){
     gameOn=false
     document.getElementById('start-button').innerText= "RESTART"
     document.getElementById('start-button').onclick = playGame
+    
 }
 
 let megaImg= new Image()
 megaImg.src="./images/pngegg.png"
-megaImg.onload=()=>{
-    ctx.drawImage(megaImg,30,canvas.height/2,100,100)
-}
+// megaImg.onload=()=>{
+//     ctx.drawImage(megaImg,30,canvas.height/2,100,100)
+// }
 
 let megaMan={
     x: 30,
@@ -50,9 +54,9 @@ let megaMan={
 
 let laserImg= new Image()
 laserImg.src="./images/laser.png"
-laserImg.onload=()=>{
-    ctx.drawImage(laserImg,canvas.width,canvas.height-300,100,300)
-}
+// laserImg.onload=()=>{
+//     ctx.drawImage(laserImg,canvas.width,canvas.height-300,100,300)
+// }
 
 
 class Laser {
@@ -133,6 +137,7 @@ for (let laser of lasers){
 }
 ctx.drawImage(megaImg, megaMan.x, megaMan.y, megaMan.w, megaMan.h)
 megaMan.y+=gravity
+detectCollision(megaMan,{},canvas.height)
 }
 
 
@@ -142,6 +147,7 @@ function detectCollision(hero, columns, border) {
         hero.y < columns.y + columns.h &&
         hero.h + hero.y > columns.y) {
         console.log('collision')
+        toggleLasers()
         window.cancelAnimationFrame(int)
         ctx.clearRect(0,0,canvas.width,canvas.height)
         ctx.fillStyle="white"
@@ -150,11 +156,11 @@ function detectCollision(hero, columns, border) {
         ctx.fillText("Game Over",canvas.width/2,canvas.height/2)
         ctx.fillText("Score: ",canvas.width/2,canvas.height/2+100)
         ctx.fillText(score,canvas.width/2+220,canvas.height/2+100)
-        toggleLasers()
         gameOver()
         
     } else if (hero.y+hero.h>=border){
         console.log('collision bottom')
+        toggleLasers() 
         window.cancelAnimationFrame(int)
         ctx.clearRect(0,0,canvas.width,canvas.height)
         ctx.fillStyle="white"
@@ -163,7 +169,6 @@ function detectCollision(hero, columns, border) {
         ctx.fillText("Game Over",canvas.width/2,canvas.height/2)
         ctx.fillText("Score: ",canvas.width/2,canvas.height/2+100)
         ctx.fillText(score,canvas.width/2+220,canvas.height/2+100)
-        toggleLasers() 
         gameOver()
     } 
   }
