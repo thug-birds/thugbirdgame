@@ -7,7 +7,7 @@ let gameOn = false;
 let restart = true;
 let lasers = []
 let score = 0
-let gravity= 2
+let gravity= 2.5
 
 window.onload = function() {
     document.getElementById('start-button').onclick = function() {
