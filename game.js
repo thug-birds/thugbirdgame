@@ -18,7 +18,7 @@ let gravity= 2.5
 let highScore = 0;
 // sets variable conditions and allows you to start the game
 window.onload = function() {
-    // openMusic.play();
+    openMusic.play();
     document.getElementById('start-button').onclick = function() {
       if (!gameOn && restart) {
         playGame();
@@ -49,6 +49,17 @@ function gameOver(){
     document.getElementById('start-button').onclick = playGame
     
 }
+
+let deadImg= new Image()
+deadImg.src="./images/dead.jpeg"
+
+let deadMan={
+    x: 0,
+    y: 0,
+    w: canvas.width,
+    h: canvas.height,
+}
+
 //Mega man image
 let megaImg= new Image()
 megaImg.src="./images/pngegg.png"
@@ -157,14 +168,12 @@ function detectLaserCollision(hero, columns) {
         return true
         
     } 
-}
-         
+}         
         
 function detectFloorCollision(hero,border){
      if (hero.y+hero.h>=border){
         console.log('collision bottom')
-        collisionOccur()
-        
+        collisionOccur()     
     } 
 }
 
@@ -174,13 +183,19 @@ function collisionOccur(){
     backgroundMusic.pause();
     gameOverMusic.play();
     ctx.clearRect(0,0,canvas.width,canvas.height)
-    ctx.fillStyle="white"
+    ctx.drawImage(deadImg, deadMan.x, deadMan.y, deadMan.w, deadMan.h)
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 5;
+    ctx.fillStyle='red'
     ctx.textAlign = "center",
-    ctx.font="bold 96px Helvetica, Arial, sans-serif"
-    ctx.fillText("Game Over",canvas.width/2,canvas.height/2)
-    ctx.fillText("Score: ",canvas.width/2,canvas.height/2+100)
-    ctx.fillText(score,canvas.width/2+220,canvas.height/2+100)
-        if (score > highScore){
+    ctx.font="bold 200px Helvetica, Arial, sans-serif"
+    ctx.fillText("Game Over",canvas.width/2,canvas.height/2-100)
+    ctx.strokeText("Game Over",canvas.width/2,canvas.height/2-100)
+    ctx.fillText("Score: ",canvas.width/2,canvas.height/2+150)
+    ctx.strokeText("Score: ",canvas.width/2,canvas.height/2+150)
+    ctx.fillText(score,canvas.width/2+420,canvas.height/2+150)
+    ctx.strokeText(score,canvas.width/2+420,canvas.height/2+150)  
+    if (score > highScore){
         highScore = score 
         document.querySelector("#high").innerText = highScore
     } 
