@@ -3,6 +3,10 @@ const canvas = document.querySelector('canvas')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 const ctx = canvas.getContext('2d')
+
+let backgroundMusic = new Audio ("./music/Music.mp3");
+let gameOverMusic = new Audio ("./music/GameOverSound.mp3");
+
 // declaring global variables
 let gameOn = false;
 let restart = true;
@@ -22,6 +26,7 @@ function playGame() {
     if (!gameOn){
         restart = false;
         gameOn = true;
+        backgroundMusic.play();
         document.getElementById('start-button').blur();
         score=0
         lasers=[]
@@ -156,6 +161,8 @@ function detectFloorCollision(hero,border){
 function collisionOccur(){
     toggleLasers() 
     window.cancelAnimationFrame(int)
+    backgroundMusic.pause();
+    gameOverMusic.play();
     ctx.clearRect(0,0,canvas.width,canvas.height)
     ctx.fillStyle="white"
     ctx.textAlign = "center",
