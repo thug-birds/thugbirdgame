@@ -6,6 +6,8 @@ const ctx = canvas.getContext('2d')
 
 let backgroundMusic = new Audio ("./music/Music.mp3");
 let gameOverMusic = new Audio ("./music/GameOverSound.mp3");
+let openMusic = new Audio ("./music/OpenSound.mp3");
+
 
 // declaring global variables
 let gameOn = false;
@@ -15,6 +17,7 @@ let score = 0
 let gravity= 2.5
 // sets variable conditions and allows you to start the game
 window.onload = function() {
+    openMusic.play();
     document.getElementById('start-button').onclick = function() {
       if (!gameOn && restart) {
         playGame();
@@ -26,6 +29,7 @@ function playGame() {
     if (!gameOn){
         restart = false;
         gameOn = true;
+        openMusic.pause();
         backgroundMusic.play();
         document.getElementById('start-button').blur();
         score=0
@@ -172,3 +176,4 @@ function collisionOccur(){
     ctx.fillText(score,canvas.width/2+220,canvas.height/2+100)
     gameOver()
 }
+
