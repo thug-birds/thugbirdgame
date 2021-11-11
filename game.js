@@ -15,9 +15,10 @@ let restart = true;
 let lasers = []
 let score = 0
 let gravity= 2.5
+let highScore = 0;
 // sets variable conditions and allows you to start the game
 window.onload = function() {
-    openMusic.play();
+    // openMusic.play();
     document.getElementById('start-button').onclick = function() {
       if (!gameOn && restart) {
         playGame();
@@ -174,6 +175,12 @@ function collisionOccur(){
     ctx.fillText("Game Over",canvas.width/2,canvas.height/2)
     ctx.fillText("Score: ",canvas.width/2,canvas.height/2+100)
     ctx.fillText(score,canvas.width/2+220,canvas.height/2+100)
+        if (score > highScore){
+        highScore = score 
+        document.querySelector("#high").innerText = highScore
+    } 
+    console.log(highScore)
     gameOver()
 }
 
+   
