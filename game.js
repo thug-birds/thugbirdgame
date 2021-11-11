@@ -3,14 +3,22 @@ const canvas = document.querySelector('canvas')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 const ctx = canvas.getContext('2d')
+
+let backgroundMusic = new Audio ("./music/Music.mp3");
+let gameOverMusic = new Audio ("./music/GameOverSound.mp3");
+let openMusic = new Audio ("./music/OpenSound.mp3");
+
+
 // declaring global variables
 let gameOn = false;
 let restart = true;
 let lasers = []
 let score = 0
 let gravity= 2.5
+let highScore = 0;
 // sets variable conditions and allows you to start the game
 window.onload = function() {
+    // openMusic.play();
     document.getElementById('start-button').onclick = function() {
       if (!gameOn && restart) {
         playGame();
@@ -22,6 +30,8 @@ function playGame() {
     if (!gameOn){
         restart = false;
         gameOn = true;
+        openMusic.pause();
+        backgroundMusic.play();
         document.getElementById('start-button').blur();
         score=0
         lasers=[]
@@ -156,6 +166,8 @@ function detectFloorCollision(hero,border){
 function collisionOccur(){
     toggleLasers() 
     window.cancelAnimationFrame(int)
+    backgroundMusic.pause();
+    gameOverMusic.play();
     ctx.clearRect(0,0,canvas.width,canvas.height)
     ctx.fillStyle="white"
     ctx.textAlign = "center",
@@ -163,5 +175,12 @@ function collisionOccur(){
     ctx.fillText("Game Over",canvas.width/2,canvas.height/2)
     ctx.fillText("Score: ",canvas.width/2,canvas.height/2+100)
     ctx.fillText(score,canvas.width/2+220,canvas.height/2+100)
+        if (score > highScore){
+        highScore = score 
+        document.querySelector("#high").innerText = highScore
+    } 
+    console.log(highScore)
     gameOver()
 }
+
+   
