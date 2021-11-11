@@ -124,21 +124,25 @@ setInterval(() => {
     score += 1
 }, 500)
 
-
 let int
+let collision = false;
 // Game engine
 function animate(){
 int=window.requestAnimationFrame(animate)
 ctx.clearRect(0,0,canvas.width,canvas.height)
 document.querySelector('p span').innerText = score
-//draws lasers 
-for (let laser of lasers){
-    ctx.drawImage(laser.image,laser.x-=3,laser.y,laser.w,laser.h)
-       detectLaserCollision(megaMan, laser)      
-}
 //draws mega Man
 ctx.drawImage(megaImg, megaMan.x, megaMan.y, megaMan.w, megaMan.h)
 megaMan.y+=gravity
+//draws lasers 
+for (let laser of lasers){
+    ctx.drawImage(laser.image,laser.x-=3,laser.y,laser.w,laser.h)
+    collision = detectLaserCollision(megaMan, laser);
+    if (collision) {
+        collisionOccur();
+        break;
+    }     
+}
 detectFloorCollision(megaMan,canvas.height) 
 }
 
@@ -150,7 +154,8 @@ function detectLaserCollision(hero, columns) {
         hero.y < columns.y + columns.h &&
         hero.h + hero.y > columns.y) {
         console.log('collision')
-        collisionOccur()
+        return true
+        
     } 
 }
          
