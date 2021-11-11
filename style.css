@@ -3,7 +3,7 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 50px;
+  margin: 150px;
   padding: 0;
   background-image: url("./images/spacebackground.jpeg");
   background-repeat: no-repeat;
@@ -21,13 +21,17 @@ canvas {
 }
 
 #start-button {
+  cursor: pointer;
   text-align: center;
   height: 50px;
   width: 150px;
   border-style: solid;
   border-color: black;
-  background-color: green;
-  border-radius: 15px;
+  /* background-color: green; */
+  /* border-radius: 15px; */
+  border-radius: 2.5rem;
+  background: rgb(230,17,120);
+  background: radial-gradient(circle, rgba(230,17,120,0.8141361256544503) 0%, rgba(45,159,191,1) 100%);
 }
 
 .container {
